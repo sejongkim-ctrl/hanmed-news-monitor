@@ -4,246 +4,497 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>수壽 Daily — 2026.03.06 (금)</title>
+  <!-- GA4 -->
+  
   <style>
     /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --red:    #891C21;
+      --red-light: #A82830;
       --gold:   #C5A774;
-      --bg:     #F9F7F4;
-      --white:  #FFFFFF;
-      --text:   #1A1A1A;
-      --muted:  #6B6B6B;
-      --border: #E8E0D6;
-      --card-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      --radius: 10px;
+      --gold-light: #EDE4D4;
+      --bg:     #FFFFFF;
+      --bg-alt: #FAFAFA;
+      --text:   #191919;
+      --text-secondary: #555555;
+      --muted:  #999999;
+      --border: #EEEEEE;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      --card-shadow-hover: 0 6px 20px rgba(0,0,0,0.08);
+      --radius: 12px;
+      --transition: 0.2s ease;
     }
 
     body {
-      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       font-size: 15px;
-      line-height: 1.7;
+      line-height: 1.6;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
     a { color: inherit; text-decoration: none; }
-    a:hover { text-decoration: underline; }
 
-    /* ── Header ── */
+    /* ── Slim Header (뉴닉 스타일) ── */
     .site-header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.92);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--red);
+      letter-spacing: -0.03em;
+    }
+
+    .header-divider {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+    }
+
+    .header-subtitle {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .header-date {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* ── Hero Banner ── */
+    .hero {
       background: var(--red);
-      color: var(--white);
-      padding: 28px 20px 22px;
+      padding: 40px 24px 36px;
       text-align: center;
     }
 
-    .site-header .brand-tag {
-      font-size: 12px;
-      letter-spacing: 0.12em;
+    .hero .brand-tag {
+      font-size: 11px;
+      letter-spacing: 0.15em;
       color: var(--gold);
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
-    .site-header h1 {
-      font-size: 22px;
-      font-weight: 700;
+    .hero h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #FFFFFF;
       letter-spacing: -0.02em;
-      color: var(--white);
+      line-height: 1.3;
     }
 
-    .site-header .date-label {
-      font-size: 13px;
-      color: rgba(255,255,255,0.75);
-      margin-top: 6px;
+    .hero .hero-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 10px;
     }
 
     /* ── Container ── */
     .container {
-      max-width: 720px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 24px 16px 60px;
+      padding: 32px 20px 60px;
     }
 
-    /* ── Section ── */
+    /* ── Section Header (뉴닉 스타일 태그) ── */
     .section {
-      margin-bottom: 36px;
+      margin-bottom: 48px;
     }
 
-    .section-title {
-      font-size: 13px;
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+
+    .section-tag .tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    .section-tag.kin .tag-dot {
+      background: var(--gold);
+    }
+
+    .section-count {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* ── Featured Card (1건, 뉴닉 히어로 카드) ── */
+    .featured-card {
+      display: block;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 28px 24px;
+      margin-bottom: 16px;
+      transition: box-shadow var(--transition), transform var(--transition);
+      cursor: pointer;
+      position: relative;
+      color: inherit;
+    }
+
+    .featured-card:hover { text-decoration: none; }
+
+    .featured-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .featured-card .card-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       color: var(--red);
+      background: rgba(137,28,33,0.08);
+      border-radius: 4px;
+      padding: 3px 8px;
+      margin-bottom: 12px;
       text-transform: uppercase;
-      border-bottom: 2px solid var(--gold);
-      padding-bottom: 8px;
+    }
+
+    .featured-card .card-source {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .featured-card .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .featured-card .card-title a { color: var(--text); }
+    .featured-card .card-title a:hover { color: var(--red); text-decoration: none; }
+
+    .featured-card .card-summary {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .featured-card .card-cta {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--red);
+      transition: opacity var(--transition);
+    }
+
+    .featured-card .card-cta:hover {
+      opacity: 0.7;
+      text-decoration: none;
+    }
+
+    /* ── Card Grid (2열, 뉴닉 핵심 레이아웃) ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
       margin-bottom: 16px;
     }
 
-    /* ── News Card ── */
-    .news-card {
-      background: var(--white);
+    .grid-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: var(--card-shadow);
-      padding: 18px 20px;
-      margin-bottom: 12px;
-      border-left: 3px solid var(--red);
+      padding: 22px 20px 18px;
+      transition: box-shadow var(--transition), transform var(--transition);
+      color: inherit;
     }
 
-    .news-card .news-source {
+    .grid-card:hover { text-decoration: none; }
+
+    .grid-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .grid-card .card-source {
       font-size: 11px;
       color: var(--muted);
-      letter-spacing: 0.05em;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
-    .news-card .news-title {
-      font-size: 16px;
+    .grid-card .card-title {
+      font-size: 15px;
       font-weight: 600;
       line-height: 1.45;
-      margin-bottom: 10px;
       color: var(--text);
-    }
-
-    .news-card .news-title a {
-      color: var(--text);
-    }
-
-    .news-card .news-title a:hover {
-      color: var(--red);
-      text-decoration: none;
-    }
-
-    .news-card .news-summary {
-      font-size: 14px;
-      color: #3A3A3A;
-      line-height: 1.65;
-      margin-bottom: 12px;
-      white-space: pre-line;
-    }
-
-    .news-card .news-link {
-      display: inline-block;
-      font-size: 12px;
-      color: var(--red);
-      border: 1px solid var(--red);
-      border-radius: 4px;
-      padding: 4px 10px;
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .news-card .news-link:hover {
-      background: var(--red);
-      color: var(--white);
-      text-decoration: none;
-    }
-
-    /* ── Kin Card ── */
-    .kin-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--card-shadow);
-      padding: 16px 20px;
-      margin-bottom: 12px;
-      border-left: 3px solid var(--gold);
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-    }
-
-    .kin-card .kin-meta {
-      flex-shrink: 0;
-      text-align: center;
-      min-width: 52px;
-    }
-
-    .kin-card .kin-stat {
-      font-size: 11px;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .kin-card .kin-stat strong {
-      display: block;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .kin-card .kin-body {
       flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    .kin-card .kin-category {
+    .grid-card .card-title a { color: var(--text); }
+    .grid-card .card-title a:hover { color: var(--red); text-decoration: none; }
+
+    .grid-card .card-summary {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-top: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .grid-card .card-cta {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--red);
+    }
+
+    .grid-card .card-cta:hover { text-decoration: none; opacity: 0.7; }
+
+    /* ── Compact List (10건 이후) ── */
+    .compact-list {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .compact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition);
+    }
+
+    .compact-item:last-child {
+      border-bottom: none;
+    }
+
+    .compact-item:hover {
+      background: var(--bg-alt);
+    }
+
+    .compact-item .item-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .compact-item .item-source {
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+      min-width: 56px;
+    }
+
+    .compact-item .item-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .compact-item .item-title a { color: var(--text); }
+    .compact-item .item-title a:hover { color: var(--red); text-decoration: none; }
+
+    /* ── 더보기 토글 ── */
+    .more-toggle {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--transition);
+      font-family: inherit;
+    }
+
+    .more-toggle:hover {
+      border-color: var(--red);
+      color: var(--red);
+      background: rgba(137,28,33,0.03);
+    }
+
+    .list-hidden {
+      display: none;
+    }
+
+    .list-hidden.show {
+      display: block;
+    }
+
+    /* ── Kin Section (뉴닉 스타일 카드) ── */
+    .kin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .kin-card {
+      display: block;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: box-shadow var(--transition), transform var(--transition);
+      color: inherit;
+    }
+
+    .kin-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    .kin-card .kin-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .kin-card .kin-category-tag {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gold);
+      background: var(--gold-light);
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+
+    .kin-card .kin-stats {
       font-size: 11px;
       color: var(--muted);
-      margin-bottom: 4px;
     }
 
     .kin-card .kin-title {
       font-size: 15px;
       font-weight: 600;
       line-height: 1.45;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
+      color: var(--text);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    .kin-card .kin-answer-btn {
-      display: inline-block;
+    .kin-card .kin-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       font-size: 12px;
       font-weight: 600;
-      background: var(--gold);
-      color: var(--white);
-      border-radius: 4px;
-      padding: 5px 12px;
-      transition: opacity 0.15s;
+      color: var(--gold);
+      transition: opacity var(--transition);
     }
 
-    .kin-card .kin-answer-btn:hover {
-      opacity: 0.85;
+    .kin-card .kin-cta:hover {
+      opacity: 0.7;
       text-decoration: none;
     }
 
     /* ── Empty State ── */
     .empty-state {
-      background: var(--white);
+      border: 1px dashed var(--border);
       border-radius: var(--radius);
-      padding: 28px 20px;
+      padding: 40px 20px;
       text-align: center;
       color: var(--muted);
       font-size: 14px;
-      border: 1px dashed var(--border);
     }
 
-    /* ── Stibee Subscribe (placeholder) ── */
+    /* ── Subscribe Section ── */
     .subscribe-section {
-      background: var(--white);
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: var(--card-shadow);
-      padding: 28px 24px;
+      padding: 32px 28px;
       text-align: center;
-      margin-bottom: 36px;
+      margin-bottom: 48px;
     }
 
     .subscribe-section h3 {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
-      color: var(--red);
-      margin-bottom: 8px;
+      color: var(--text);
+      margin-bottom: 6px;
     }
 
     .subscribe-section p {
       font-size: 13px;
       color: var(--muted);
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
-    /* 스티비 폼 임베드 영역 */
     #stibee-form-container {
-      min-height: 80px;
+      min-height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -251,478 +502,466 @@
       font-size: 13px;
     }
 
-    /* ── Footer ── */
+    /* ── Footer (뉴닉 스타일 미니멀) ── */
     .site-footer {
-      text-align: center;
-      padding: 24px 20px 40px;
       border-top: 1px solid var(--border);
+      padding: 32px 20px 48px;
+      text-align: center;
     }
 
-    .site-footer .brand-sig {
-      font-size: 13px;
+    .site-footer .footer-brand {
+      font-size: 14px;
+      font-weight: 700;
       color: var(--red);
-      font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
-    .site-footer .archive-link {
-      display: inline-block;
+    .site-footer .footer-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .site-footer .footer-link {
       font-size: 12px;
       color: var(--muted);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 5px 14px;
-      margin-bottom: 12px;
-      transition: border-color 0.15s, color 0.15s;
+      transition: color var(--transition);
     }
 
-    .site-footer .archive-link:hover {
-      border-color: var(--red);
+    .site-footer .footer-link:hover {
       color: var(--red);
       text-decoration: none;
     }
 
-    .site-footer .generated {
+    .site-footer .footer-meta {
       font-size: 11px;
-      color: #AAAAAA;
+      color: #CCCCCC;
     }
 
     /* ── Mobile ── */
-    @media (max-width: 480px) {
-      .site-header h1 { font-size: 19px; }
-      .news-card .news-title { font-size: 15px; }
-      .kin-card { flex-direction: column; gap: 8px; }
-      .kin-card .kin-meta { display: flex; gap: 12px; min-width: unset; text-align: left; }
+    @media (max-width: 640px) {
+      .site-header { padding: 12px 16px; }
+      .header-logo { font-size: 16px; }
+      .hero { padding: 32px 16px 28px; }
+      .hero h1 { font-size: 22px; }
+      .container { padding: 24px 16px 48px; }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .kin-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .featured-card {
+        padding: 22px 20px 20px;
+      }
+
+      .featured-card .card-title {
+        font-size: 18px;
+      }
+
+      .grid-card {
+        padding: 18px 16px 14px;
+      }
+
+      .compact-item {
+        padding: 11px 14px;
+        gap: 8px;
+      }
+
+      .compact-item .item-source {
+        min-width: 44px;
+        font-size: 9px;
+      }
+
+      .compact-item .item-title {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- ── Header ── -->
+  <!-- ── Sticky Header (뉴닉 스타일) ── -->
   <header class="site-header">
-    <div class="brand-tag">한의사가 만든 한의 브랜드, 수壽</div>
-    <h1>수壽 Daily</h1>
-    <div class="date-label">2026.03.06 (금)</div>
+    <div class="header-left">
+      <span class="header-logo">수壽 Daily</span>
+      <span class="header-divider"></span>
+      <span class="header-subtitle">한의계 뉴스 브리핑</span>
+    </div>
+    <span class="header-date">2026.03.06 (금)</span>
   </header>
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="brand-tag">한의사가 만든 한의 브랜드, 수壽</div>
+    <h1>오늘의 한의계 브리핑</h1>
+    <div class="hero-desc">
+      
+        뉴스 38건
+      
+    </div>
+  </div>
 
   <div class="container">
 
     <!-- ── 섹션 1: 한의계 뉴스 ── -->
     <section class="section">
-      <div class="section-title">오늘의 한의계 뉴스</div>
+      <div class="section-header">
+        <span class="section-tag">
+          <span class="tag-dot"></span>
+          오늘의 한의계 뉴스
+        </span>
+        
+        <span class="section-count">38건</span>
+        
+      </div>
 
       
+
         
-        <div class="news-card">
+        
+        <a class="featured-card" href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66480%26me_id%3D%26me_code%3D&amp;id=1&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">
+          <span class="card-badge">Today's Pick</span>
           
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66461&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">‘한의사를 위한 실비보험 &amp; 자동차보험’ 출간</a>
-          </div>
+          <div class="card-title">윤제필 원장, 보건복지부 장관 표창 수상…국내외 의료 사각지대 살펴</div>
           
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66461&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
+          <span class="card-cta">원문 보기 →</span>
+        </a>
+
+        
+        
+        <div class="card-grid">
+          
+          <a class="grid-card" href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66479%26me_id%3D%26me_code%3D&amp;id=2&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">
+            
+            <div class="card-title">상처 입은 여성 곁에 선 한의학…박소연 회장 ‘서울여성상’ 수상</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+          <a class="grid-card" href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66478%26me_id%3D%26me_code%3D&amp;id=3&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">
+            
+            <div class="card-title">한의원 140개소, ‘일차의료 방문진료 시범사업’에 선정</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+          <a class="grid-card" href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66477%26me_id%3D%26me_code%3D&amp;id=4&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">
+            
+            <div class="card-title">국민 10명 중 6명, 부정확한 건강정보 접한 경험 있다</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+          <a class="grid-card" href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66476%26me_id%3D%26me_code%3D&amp;id=5&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">
+            
+            <div class="card-title">“라오스에 전한 전통의학의 온기와 치유의 시간”</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+          <a class="grid-card" href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66475%26me_id%3D%26me_code%3D&amp;id=6&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">
+            
+            <div class="card-title">“비만 치료제, 건보 적용하고 설탕세 등 도입해야”</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+          <a class="grid-card" href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66474%26me_id%3D%26me_code%3D&amp;id=7&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">
+            
+            <div class="card-title">한의사 9명…&#34;최근 20년간의 문신 관련 의학 연구 동향 분석”</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
         </div>
         
-        <div class="news-card">
+
+        
+        
+        <div class="compact-list">
           
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66460&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">“강원도의사회는 시대착오적 직역 이기주의를 즉각 멈춰라”</a>
+          <div class="compact-item">
+            <span class="item-num">8</span>
+            <span class="item-source"></span>
+            <span class="item-title">
+              <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66473%26me_id%3D%26me_code%3D&amp;id=8&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">“국민 총소득은 증가했으나 삶의 만족도는 하락”</a>
+            </span>
           </div>
           
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66460&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66459&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">자보 한의진료비 ‘과잉’ 프레임 논란…“환자 수요·제도 목적 외면한 통계”</a>
+          <div class="compact-item">
+            <span class="item-num">9</span>
+            <span class="item-source"></span>
+            <span class="item-title">
+              <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66472%26me_id%3D%26me_code%3D&amp;id=9&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">대한침구의학회, 오는 22일 ‘춘계학술대회 및 정기총회’ 개최</a>
+            </span>
           </div>
           
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66459&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66458&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">“통합돌봄 추진 로드맵, 구체적 정책의지 확인할 수 없어”</a>
+          <div class="compact-item">
+            <span class="item-num">10</span>
+            <span class="item-source"></span>
+            <span class="item-title">
+              <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66471%26me_id%3D%26me_code%3D&amp;id=10&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">“한의임상, 자살 위험 선별 역량 강화 시급”…10년 추적연구가 던진 과제</a>
+            </span>
           </div>
           
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66458&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66457&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">식약처, 비만치료제 표방 식품 특별점검 실시</a>
+          <div class="compact-item">
+            <span class="item-num">11</span>
+            <span class="item-source"></span>
+            <span class="item-title">
+              <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66469%26me_id%3D%26me_code%3D&amp;id=11&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">“통합돌봄 체계에서의 한의사 역할 확대에 매진”</a>
+            </span>
           </div>
           
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66457&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66455&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">교통사고 치료 8주 제한, 즉각적인 철회 촉구 1인 시위</a>
+          <div class="compact-item">
+            <span class="item-num">12</span>
+            <span class="item-source"></span>
+            <span class="item-title">
+              <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66468%26me_id%3D%26me_code%3D&amp;id=12&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">네팔과 히말라야가 전하는 겸손</a>
+            </span>
           </div>
           
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66455&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66456&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">’27년까지 재택의료센터·재가의료서비스 등 강화</a>
+          <div class="compact-item">
+            <span class="item-num">13</span>
+            <span class="item-source"></span>
+            <span class="item-title">
+              <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66467%26me_id%3D%26me_code%3D&amp;id=13&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">대한한의사협회, 오는 29일 &#39;제70회 정기대의원총회&#39; 개최</a>
+            </span>
           </div>
           
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66456&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66454&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">“대상자들에게 최상의 통합돌봄 서비스 제공할 것”</a>
+          <div class="compact-item">
+            <span class="item-num">14</span>
+            <span class="item-source"></span>
+            <span class="item-title">
+              <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66465%26me_id%3D%26me_code%3D&amp;id=14&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">자보 진료비 관리 강화 추진…심평원 현지조사 지원 근거 마련</a>
+            </span>
           </div>
           
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66454&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66453&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">환자 치료기회 및 건보재정 영향 판단하는 중요한 수행 기대</a>
+          <div class="compact-item">
+            <span class="item-num">15</span>
+            <span class="item-source"></span>
+            <span class="item-title">
+              <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66466%26me_id%3D%26me_code%3D&amp;id=15&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">상지대 한의학과 동문 이주영 원장, 기부금 전달</a>
+            </span>
           </div>
           
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66453&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
         </div>
+
         
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66452&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">“의료·돌봄 네트워크와 함께 통합돌봄 컨소시엄 구성”</a>
+        
+        <div class="list-hidden" id="moreNews">
+          <div class="compact-list" style="margin-top: 12px;">
+            
+            <div class="compact-item">
+              <span class="item-num">16</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66464%26me_id%3D%26me_code%3D&amp;id=16&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">같은 수익, 다른 세금</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">17</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66463%26me_id%3D%26me_code%3D&amp;id=17&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">“디스크 터졌는데 경상이라니…상해급수 왜곡 바로 잡아야”</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">18</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=https%3A%2F%2Fwww.akomnews.com%2Fbbs%2Fboard.php%3Fbo_table%3Dnews%26wr_id%3D66462%26me_id%3D%26me_code%3D&amp;id=18&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">체외충격파치료, 관리급여 지정 보류…자율시정 진행</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">19</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62192&amp;id=19&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">근현대 한의학 인물사 (477): 沈在錄(1928∼?)</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">20</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62191&amp;id=20&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">＜고의서산책/1190＞ - 『驚痓癲癎』</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">21</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62195&amp;id=21&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">국민 10명 중 6명 ‘부정확한 건강정보 경험’…정보 활용 평균 32.65점</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">22</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62193&amp;id=22&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">[영화읽기] 두 마녀의 우정 어린 성장기</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">23</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62194&amp;id=23&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">복지부, 지역사회 통합돌봄 30종 실시…2030년까지 60종으로 확대</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">24</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62189&amp;id=24&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">“국토부, 보험사 이익만을 위한 자보 개정 논의 즉각 중단하라”</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">25</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62188&amp;id=25&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">“자동차보험, 공적 심사 체계 중심 운영 필요”</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">26</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62187&amp;id=26&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">미시간주립대 의대, 자생 방문해 한의학 체험하다</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">27</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62186&amp;id=27&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">식약처, &#39;위고비&#39; 등 비만치료제 이름 유사한 식품 광고 점검 나선다</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">28</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62185&amp;id=28&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">한의학연, 1만 3000명 데이터 기반 한의 생체지표 참조 기준 구축</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">29</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62184&amp;id=29&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">경기도 문화예술과 한의약 연계한 공공 협력 기반 마련한다</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">30</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62183&amp;id=30&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">[인터뷰] “변화하고 있는 지방공공의료의 현실, 한의사 공보의 새로운 역할 고민”</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">31</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62182&amp;id=31&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">‘교통사고 피해자 치료 8주 제한’…한의사들, 국토부·국회 앞 1인 시위</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">32</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62180&amp;id=32&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">사천시, 한의약으로 중풍 예방 나선다</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">33</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62179&amp;id=33&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">영월군보건소, 한의사가 방문해 침치료 등 의료서비스 제공</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">34</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62178&amp;id=34&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">신경병증 분야 최신 연구 성과 공유 및 융합연구 전략 모색됐다</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">35</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62177&amp;id=35&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">KOMIV, 필리핀서 현지 주민에 한의 진료 제공</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">36</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62175&amp;id=36&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">동서원외탕전실 김용수 대표, 모범 납세자상 수상</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">37</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62174&amp;id=37&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">고흥군, 한의과 공보의 역할 강화 논의</a>
+              </span>
+            </div>
+            
+            <div class="compact-item">
+              <span class="item-num">38</span>
+              <span class="item-source"></span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D62173&amp;id=38&amp;date=2026-03-06&amp;type=news" target="_blank" rel="noopener">홍성군, 한의원과 협약해 월경곤란증 청소년 치료 지원</a>
+              </span>
+            </div>
+            
           </div>
-          
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66452&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
         </div>
+        <button class="more-toggle" id="moreToggle" onclick="toggleMore()">
+          나머지 23건 더보기
+        </button>
         
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66451&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">수원시한의사회 나눔봉사단 자휼, 관내 아동에 새학기 물품 후원</a>
-          </div>
-          
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66451&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
+
         
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66450&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">세계인들은 한의약을 어떻게 생각하고 있을까?③</a>
-          </div>
-          
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66450&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66449&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">“치료 제한 논의 앞서 상해급수 체계 근본적 개편 이뤄져야”</a>
-          </div>
-          
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66449&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66447&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">심평원 경기남부본부, 미청구 진료비 148억원 찾아줘</a>
-          </div>
-          
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66447&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66448&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">“수원시한의사회 사업, 시 정책으로”…산후조리·한의약 체험 공공화 추진</a>
-          </div>
-          
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66448&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66446&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">“비소세포폐암 정밀진단 및 맞춤형 치료전략에 새로운 단서 제공”</a>
-          </div>
-          
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66446&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66445&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">경기도한의사회, 지역 한의약·문화예술 협력 모델 구축</a>
-          </div>
-          
-          <a class="news-link" href="https://www.akomnews.com/bbs/board.php?bo_table=news&amp;wr_id=66445&amp;me_id=&amp;me_code=" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62193" target="_blank" rel="noopener">[영화읽기] 두 마녀의 우정 어린 성장기</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62193" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62194" target="_blank" rel="noopener">복지부, 지역사회 통합돌봄 30종 실시…2030년까지 60종으로 확대</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62194" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62189" target="_blank" rel="noopener">“국토부, 보험사 이익만을 위한 자보 개정 논의 즉각 중단하라”</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62189" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62188" target="_blank" rel="noopener">“자동차보험, 공적 심사 체계 중심 운영 필요”</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62188" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62187" target="_blank" rel="noopener">미시간주립대 의대, 자생 방문해 한의학 체험하다</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62187" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62186" target="_blank" rel="noopener">식약처, &#39;위고비&#39; 등 비만치료제 이름 유사한 식품 광고 점검 나선다</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62186" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62185" target="_blank" rel="noopener">한의학연, 1만 3000명 데이터 기반 한의 생체지표 참조 기준 구축</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62185" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62184" target="_blank" rel="noopener">경기도 문화예술과 한의약 연계한 공공 협력 기반 마련한다</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62184" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62183" target="_blank" rel="noopener">[인터뷰] “변화하고 있는 지방공공의료의 현실, 한의사 공보의 새로운 역할 고민”</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62183" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62182" target="_blank" rel="noopener">‘교통사고 피해자 치료 8주 제한’…한의사들, 국토부·국회 앞 1인 시위</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62182" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62180" target="_blank" rel="noopener">사천시, 한의약으로 중풍 예방 나선다</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62180" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62179" target="_blank" rel="noopener">영월군보건소, 한의사가 방문해 침치료 등 의료서비스 제공</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62179" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62178" target="_blank" rel="noopener">신경병증 분야 최신 연구 성과 공유 및 융합연구 전략 모색됐다</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62178" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62177" target="_blank" rel="noopener">KOMIV, 필리핀서 현지 주민에 한의 진료 제공</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62177" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62175" target="_blank" rel="noopener">동서원외탕전실 김용수 대표, 모범 납세자상 수상</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62175" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62174" target="_blank" rel="noopener">고흥군, 한의과 공보의 역할 강화 논의</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62174" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62173" target="_blank" rel="noopener">홍성군, 한의원과 협약해 월경곤란증 청소년 치료 지원</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62173" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62172" target="_blank" rel="noopener">경희의료원, 1개 의료원-4개 병원 체제 전환으로 슬림화 도모</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62172" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62170" target="_blank" rel="noopener">어셔바이오 연구팀, 다성분 네트워크 약리학 기반 심대사 질환 분석 발표</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62170" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
-        <div class="news-card">
-          
-          <div class="news-title">
-            <a href="http://www.mjmedi.com/news/articleView.html?idxno=62169" target="_blank" rel="noopener">건보공단, 美 LACP 비전 어워드서 7개 항목 만점</a>
-          </div>
-          
-          <a class="news-link" href="http://www.mjmedi.com/news/articleView.html?idxno=62169" target="_blank" rel="noopener">원문 보기 →</a>
-        </div>
-        
+
       
     </section>
 
     <!-- ── 섹션 2: Pro 전용 환자 질문 ── -->
     
-    <section class="section">
-      <div class="section-title">Pro 전용 — 오늘의 환자 질문</div>
 
-      
-      <div class="kin-card">
-        <div class="kin-meta">
-          <div class="kin-stat">
-            <strong>0</strong>
-            조회
-          </div>
-          <div class="kin-stat" style="margin-top: 6px;">
-            <strong>7</strong>
-            답변
-          </div>
-        </div>
-        <div class="kin-body">
-          
-          <div class="kin-category">우황청심원</div>
-          
-          <div class="kin-title">우황청심원 불안에 효과 있나요?</div>
-          <a class="kin-answer-btn" href="https://kin.naver.com/qna/detail.naver?d1id=8&amp;dirId=8&amp;docId=000003" target="_blank" rel="noopener">답변하러 가기 →</a>
-        </div>
-      </div>
-      
-      <div class="kin-card">
-        <div class="kin-meta">
-          <div class="kin-stat">
-            <strong>0</strong>
-            조회
-          </div>
-          <div class="kin-stat" style="margin-top: 6px;">
-            <strong>5</strong>
-            답변
-          </div>
-        </div>
-        <div class="kin-body">
-          
-          <div class="kin-category">공진단</div>
-          
-          <div class="kin-title">공진단 복용 시 주의사항이 있나요?</div>
-          <a class="kin-answer-btn" href="https://kin.naver.com/qna/detail.naver?d1id=8&amp;dirId=8&amp;docId=000001" target="_blank" rel="noopener">답변하러 가기 →</a>
-        </div>
-      </div>
-      
-      <div class="kin-card">
-        <div class="kin-meta">
-          <div class="kin-stat">
-            <strong>0</strong>
-            조회
-          </div>
-          <div class="kin-stat" style="margin-top: 6px;">
-            <strong>3</strong>
-            답변
-          </div>
-        </div>
-        <div class="kin-body">
-          
-          <div class="kin-category">경옥고</div>
-          
-          <div class="kin-title">경옥고 노인에게 좋은가요?</div>
-          <a class="kin-answer-btn" href="https://kin.naver.com/qna/detail.naver?d1id=8&amp;dirId=8&amp;docId=000002" target="_blank" rel="noopener">답변하러 가기 →</a>
-        </div>
-      </div>
-      
-    </section>
-    
-
-    <!-- ── 스티비 구독 폼 ── -->
+    <!-- ── 구독 ── -->
     <div class="subscribe-section">
       <h3>수壽 Daily 뉴스레터 구독</h3>
       <p>매일 아침 한의계 핵심 뉴스를 받아보세요.</p>
-      <!-- 스티비 임베드 폼 — 추후 삽입 -->
       <div id="stibee-form-container">
         구독 폼 준비 중입니다.
       </div>
@@ -732,12 +971,30 @@
 
   <!-- ── Footer ── -->
   <footer class="site-footer">
-    <div class="brand-sig">한의사가 만든 한의 브랜드, 수壽</div>
-    <div>
-      <a class="archive-link" href="https://sejongkim-ctrl.github.io/hanmed-news-monitor/archive/">지난 콘텐츠 보기 →</a>
+    <div class="footer-brand">수壽 Daily</div>
+    <div class="footer-links">
+      <a class="footer-link" href="https://sejongkim-ctrl.github.io/hanmed-news-monitor/archive/">지난 콘텐츠</a>
+      <span style="color: #E0E0E0;">|</span>
+      <span class="footer-link" style="cursor: default;">한의사가 만든 한의 브랜드, 수壽</span>
     </div>
-    <div class="generated">생성: 2026-03-06 10:25</div>
+    <div class="footer-meta">2026-03-06 22:53</div>
   </footer>
+
+  <!-- ── Scripts ── -->
+  <script>
+  function toggleMore() {
+    var hidden = document.getElementById('moreNews');
+    var btn = document.getElementById('moreToggle');
+    if (!hidden || !btn) return;
+    if (hidden.classList.contains('show')) {
+      hidden.classList.remove('show');
+      btn.textContent = '나머지 ' + hidden.querySelectorAll('.compact-item').length + '건 더보기';
+    } else {
+      hidden.classList.add('show');
+      btn.textContent = '접기';
+    }
+  }
+  </script>
 
 </body>
 </html>
