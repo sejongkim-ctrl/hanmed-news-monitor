@@ -9,6 +9,7 @@ import sys
 import json
 import time
 import datetime
+from datetime import timezone, timedelta
 import requests
 from pathlib import Path
 from urllib.parse import quote
@@ -44,8 +45,9 @@ WEEKDAY_KO = ["월", "화", "수", "목", "금", "토", "일"]
 # ── 날짜 유틸 ────────────────────────────────────────────────────────────────
 
 def get_today_str() -> str:
-    """YYYY-MM-DD 형식 오늘 날짜"""
-    return datetime.date.today().strftime("%Y-%m-%d")
+    """YYYY-MM-DD 형식 오늘 날짜 (KST)"""
+    KST = timezone(timedelta(hours=9))
+    return datetime.datetime.now(KST).strftime("%Y-%m-%d")
 
 
 def get_date_label(date_str: str) -> str:
@@ -97,27 +99,38 @@ def load_news_json(date_str: str) -> list:
 
 def load_kin_json(date_str: str) -> list:
     """
-    KIN_OUTPUT_DIR/pro_YYYY-MM-DD.json 로드.
+    지식인 질문 JSON 로드. 우선순위:
+    1) output/kin_YYYY-MM-DD.json (hanmed-news-monitor 자체 kin_crawler 산출물)
+    2) KIN_OUTPUT_DIR/pro_YYYY-MM-DD.json (soo-kin-monitor 산출물)
     형식: [{"title": str, "url": str, "view_count": int, "answer_count": int, "category": str}, ...]
     없으면 빈 리스트 반환.
     """
+    def _load_file(path: Path) -> list:
+        try:
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
+            # soo-kin-monitor는 {"date": ..., "questions": [...]} 형식으로 저장
+            if isinstance(data, dict) and "questions" in data:
+                data = data["questions"]
+            if not isinstance(data, list):
+                data = []
+            print(f"[INFO] 지식인 {len(data)}건 로드: {path}")
+            return data
+        except Exception as e:
+            print(f"[WARN] 지식인 JSON 파싱 실패: {e}")
+            return []
+
+    # 1) 로컬 kin_crawler 산출물 우선
+    local_path = OUTPUT_DIR / f"kin_{date_str}.json"
+    if local_path.exists():
+        return _load_file(local_path)
+
+    # 2) soo-kin-monitor fallback
     path = KIN_OUTPUT_DIR / f"pro_{date_str}.json"
     if not path.exists():
-        print(f"[INFO] 지식인 Pro JSON 없음: {path}")
+        print(f"[INFO] 지식인 JSON 없음: {local_path}, {path}")
         return []
-    try:
-        with open(path, encoding="utf-8") as f:
-            data = json.load(f)
-        # soo-kin-monitor는 {"date": ..., "questions": [...]} 형식으로 저장
-        if isinstance(data, dict) and "questions" in data:
-            data = data["questions"]
-        if not isinstance(data, list):
-            data = []
-        print(f"[INFO] 지식인 {len(data)}건 로드: {path}")
-        return data
-    except Exception as e:
-        print(f"[WARN] 지식인 JSON 파싱 실패: {e}")
-        return []
+    return _load_file(path)
 
 
 # ── Bitly ────────────────────────────────────────────────────────────────────
@@ -197,7 +210,7 @@ def render_html(date_str: str, news_items: list, kin_items: list) -> str:
         has_news=len(news_items) > 0,
         has_kin=len(kin_items) > 0,
         archive_url=f"{GITHUB_PAGES_URL}/archive/",
-        generated_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        generated_at=datetime.datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d %H:%M"),
         ga_id=GA4_ID,
     )
 

@@ -10,7 +10,7 @@ import sys
 import json
 import re
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Optional
 
 import requests
@@ -454,7 +454,8 @@ def send_slack(articles: List[Dict], date_str: str) -> None:
 # 메인
 # ─────────────────────────────────────────
 def main():
-    now = datetime.now()
+    KST = timezone(timedelta(hours=9))
+    now = datetime.now(KST)
     date_str = now.strftime("%Y-%m-%d")
     cutoff = now - timedelta(hours=COLLECTION_PERIOD_HOURS)
 

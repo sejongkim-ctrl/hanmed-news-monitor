@@ -37,6 +37,14 @@ jobs:
         # 크롤러가 없거나 실패해도 계속 진행 (integrator가 빈 섹션으로 처리)
         continue-on-error: true
 
+      - name: Run Kin Crawler (지식인 건강 질문)
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: |
+          python kin_crawler.py
+        continue-on-error: true
+
       - name: Run Integrator (HTML 생성 + Slack 알림)
         env:
           SLACK_USER_TOKEN: ${{ secrets.SLACK_USER_TOKEN }}
