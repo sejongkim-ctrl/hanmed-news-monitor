@@ -82,6 +82,12 @@ def load_news_json(date_str: str) -> list:
             data = data["articles"]
         if not isinstance(data, list):
             data = []
+        # 크롤러 JSON 필드명 정규화 (source_name → source, published_date → published_at)
+        for item in data:
+            if "source_name" in item and "source" not in item:
+                item["source"] = item["source_name"]
+            if "published_date" in item and "published_at" not in item:
+                item["published_at"] = item["published_date"]
         print(f"[INFO] 뉴스 {len(data)}건 로드: {path}")
         return data
     except Exception as e:
