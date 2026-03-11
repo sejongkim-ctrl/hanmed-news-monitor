@@ -3,6 +3,12 @@
 """
 Kin Crawler — 네이버 지식인 건강 질문 수집기
 한의사가 답변하면 좋을 건강 관련 질문을 네이버 검색 API로 수집하여 JSON으로 저장
+
+필터링 조건:
+  1) 최근 7일 이내 질문
+  2) 한의학 관련 키워드가 제목/설명에 포함된 질문만
+  3) 답변 채택 완료 또는 질문 마감된 건은 제외
+  4) 검색 키워드(네이버 노출 키워드) 표기
 """
 
 import os
@@ -27,9 +33,10 @@ NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID", "")
 NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET", "")
 KIN_API_URL = "https://openapi.naver.com/v1/search/kin.json"
 
-# API 호출당 결과 수, 키워드 간 딜레이(초)
-DISPLAY_COUNT = 5
+# API 호출당 결과 수, 딜레이(초)
+DISPLAY_COUNT = 10
 API_DELAY = 0.3
+PAGE_DELAY = 0.5  # 페이지 스크래핑 간 딜레이
 
 # 최근 N일 이내 질문만 수집
 RECENT_DAYS = 7
@@ -59,6 +66,28 @@ KEYWORD_CATEGORIES = {
     "체질 진단": "체질_사상",
 }
 
+# ── 한의학 관련 키워드 (관련성 필터용) ─────────────────────────────────────────
+KM_TERMS = {
+    "한약", "한의원", "한의사", "한방", "침", "뜸", "추나", "부항",
+    "공진단", "경옥고", "녹용", "보약", "보양", "사상체질",
+    "소음인", "소양인", "태음인", "태양인", "체질",
+    "동의보감", "본초", "처방", "약침", "한약재",
+    "산후조리", "산후풍", "탕약", "환약", "첩약",
+    "갱년기", "성장클리닉", "보약",
+    "구안와사", "안면마비", "이명", "비염", "아토피",
+    "디스크", "오십견", "관절", "허리",
+    "한방병원", "한방치료", "약재", "경락", "경혈", "혈자리",
+}
+
+# ── 스크래핑용 헤더 ────────────────────────────────────────────────────────────
+SCRAPE_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    ),
+    "Accept-Language": "ko-KR,ko;q=0.9",
+}
+
 
 def strip_html(text: str) -> str:
     """HTML 태그 제거"""
@@ -66,22 +95,46 @@ def strip_html(text: str) -> str:
 
 
 def parse_pubdate(pubdate_str: str) -> Optional[datetime]:
-    """
-    네이버 지식인 pubDate 파싱.
-    예: "Mon, 10 Mar 2026 14:22:00 +0900"
-    """
+    """네이버 지식인 pubDate 파싱"""
     try:
-        # strptime은 %z 로 타임존 파싱 가능 (Python 3.2+)
         return datetime.strptime(pubdate_str, "%a, %d %b %Y %H:%M:%S %z")
     except Exception:
         return None
 
 
+def is_km_related(title: str, description: str) -> bool:
+    """제목 + 설명에 한의학 관련 키워드가 포함되어 있는지 확인"""
+    text = f"{title} {description}"
+    return any(term in text for term in KM_TERMS)
+
+
+def is_answerable(url: str) -> bool:
+    """
+    질문 페이지를 방문하여 답변 가능 여부 확인.
+    "질문마감" 상태인 경우만 제외. 채택된 답변이 있어도 추가 답변은 가능하다.
+    """
+    try:
+        resp = requests.get(url, headers=SCRAPE_HEADERS, timeout=10)
+        if resp.status_code != 200:
+            return True  # 확인 불가 시 포함 (보수적)
+
+        html = resp.text
+
+        # 질문 마감 여부만 체크 (채택 답변 존재와 답변 가능은 별개)
+        if "질문마감" in html:
+            print(f"    [SKIP] 질문마감")
+            return False
+
+        return True
+    except Exception as e:
+        print(f"    [WARN] 페이지 확인 실패: {e}")
+        return True
+
+
 def fetch_kin_questions(keyword: str, category: str) -> list:
     """
-    네이버 지식인 검색 API 호출, 필터링 후 질문 목록 반환.
-    반환 형식: [{"title": str, "url": str, "category": str,
-                "view_count": int, "answer_count": int, "pubdate": datetime}, ...]
+    네이버 지식인 검색 API 호출 → 한의학 관련성 필터 적용 → 질문 목록 반환.
+    각 항목에 검색 키워드(keyword) 필드 포함.
     """
     headers = {
         "X-Naver-Client-Id": NAVER_CLIENT_ID,
@@ -90,7 +143,7 @@ def fetch_kin_questions(keyword: str, category: str) -> list:
     params = {
         "query": keyword,
         "display": DISPLAY_COUNT,
-        "sort": "sim",  # 유사도 정렬
+        "sort": "date",  # 최신순 — 미채택 질문 확보율 향상
     }
 
     try:
@@ -110,29 +163,35 @@ def fetch_kin_questions(keyword: str, category: str) -> list:
     results = []
     for item in items:
         pubdate = parse_pubdate(item.get("pubDate", ""))
-        # 날짜 파싱 실패 시 포함 (보수적으로 처리)
         if pubdate is not None and pubdate < cutoff:
             continue
 
         title = strip_html(item.get("title", ""))
+        description = strip_html(item.get("description", ""))
         url = item.get("link", "")
         if not title or not url:
+            continue
+
+        # 한의학 관련성 필터
+        if not is_km_related(title, description):
+            print(f"    [SKIP] 한의학 무관: {title[:40]}")
             continue
 
         results.append({
             "title": title,
             "url": url,
             "category": category,
-            "view_count": 0,       # 검색 API에서는 제공 안 됨
-            "answer_count": 0,     # 검색 API에서는 제공 안 됨
-            "pubdate": pubdate,    # 정렬용, 저장 시 제거
+            "keyword": keyword,
+            "view_count": 0,
+            "answer_count": 0,
+            "pubdate": pubdate,
         })
 
     return results
 
 
 def collect_all_questions() -> list:
-    """모든 키워드에 대해 API 호출 후 중복 제거, 우선순위 정렬하여 반환"""
+    """모든 키워드에 대해 API 호출 → 관련성 필터 → 채택 필터 → 최종 목록 반환"""
     if not NAVER_CLIENT_ID or not NAVER_CLIENT_SECRET:
         print("[WARN] NAVER_CLIENT_ID / NAVER_CLIENT_SECRET 미설정. 지식인 수집 건너뜀.")
         return []
@@ -153,22 +212,44 @@ def collect_all_questions() -> list:
 
     # 우선순위 정렬: 답변 수 적은 것 → 최신순
     all_items.sort(key=lambda x: (
-        x["answer_count"],                                   # 답변 수 적은 것 우선
-        -(x["pubdate"].timestamp() if x["pubdate"] else 0),  # 최신 우선
+        x["answer_count"],
+        -(x["pubdate"].timestamp() if x["pubdate"] else 0),
     ))
 
-    # 카테고리별 최대 건수 제한 및 전체 최대 건수 제한
+    # 카테고리별 최대 건수 제한 (채택 필터 전 여유분 확보)
     category_counts: dict = {}
-    result = []
+    candidates = []
     for item in all_items:
         cat = item["category"]
         count = category_counts.get(cat, 0)
-        if count >= MAX_PER_CATEGORY:
+        if count >= MAX_PER_CATEGORY * 2:  # 채택 필터링 여유분
             continue
         category_counts[cat] = count + 1
+        candidates.append(item)
+        if len(candidates) >= MAX_TOTAL * 3:
+            break
+
+    # 채택/마감 필터링 (페이지 스크래핑)
+    print(f"\n[INFO] 답변 가능 여부 확인 중... ({len(candidates)}건)")
+    category_counts_final: dict = {}
+    result = []
+    for item in candidates:
+        print(f"  확인: {item['title'][:50]}...")
+        if not is_answerable(item["url"]):
+            time.sleep(PAGE_DELAY)
+            continue
+
+        cat = item["category"]
+        cat_count = category_counts_final.get(cat, 0)
+        if cat_count >= MAX_PER_CATEGORY:
+            time.sleep(PAGE_DELAY)
+            continue
+        category_counts_final[cat] = cat_count + 1
+
         result.append(item)
         if len(result) >= MAX_TOTAL:
             break
+        time.sleep(PAGE_DELAY)
 
     return result
 
@@ -178,7 +259,6 @@ def save_output(items: list, date_str: str) -> Path:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     path = OUTPUT_DIR / f"kin_{date_str}.json"
 
-    # 저장 시 내부용 pubdate 제거
     clean_items = [
         {k: v for k, v in item.items() if k != "pubdate"}
         for item in items

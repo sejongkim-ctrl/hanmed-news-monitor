@@ -436,6 +436,15 @@
       padding: 2px 7px;
     }
 
+    .kin-card .kin-keyword-tag {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--primary);
+      background: #f5eaea;
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+
     .kin-card .kin-stats {
       font-size: 11px;
       color: var(--muted);
@@ -730,7 +739,9 @@
             {% if item.category %}
             <span class="kin-category-tag">{{ item.category }}</span>
             {% endif %}
-            <span class="kin-stats">조회 {{ item.view_count | default(0) }} · 답변 {{ item.answer_count | default(0) }}</span>
+            {% if item.keyword %}
+            <span class="kin-keyword-tag">{{ item.keyword }}</span>
+            {% endif %}
           </div>
           <div class="kin-title">{{ item.title }}</div>
           <span class="kin-cta">답변하러 가기 →</span>
