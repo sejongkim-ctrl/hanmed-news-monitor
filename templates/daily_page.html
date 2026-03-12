@@ -650,7 +650,7 @@
 
         {# ── 1건: 히어로 카드 ── #}
         {% set item = news_items[0] %}
-        <a class="featured-card" href="{{ item.tracking_url | default(item.url) }}" target="_blank" rel="noopener">
+        <a class="featured-card" href="{{ item.tracking_url | default(item.url) }}" target="_blank" rel="noopener" data-article-url="{{ item.url }}">
           <span class="card-badge">Today's Pick</span>
           {% if item.source %}
           <div class="card-source">{{ item.source }}</div>
@@ -666,7 +666,7 @@
         {% if news_items | length > 1 %}
         <div class="card-grid">
           {% for item in news_items[1:7] %}
-          <a class="grid-card" href="{{ item.tracking_url | default(item.url) }}" target="_blank" rel="noopener">
+          <a class="grid-card" href="{{ item.tracking_url | default(item.url) }}" target="_blank" rel="noopener" data-article-url="{{ item.url }}">
             {% if item.source %}
             <div class="card-source">{{ item.source }}</div>
             {% endif %}
@@ -684,7 +684,7 @@
         {% if news_items | length > 7 %}
         <div class="compact-list">
           {% for item in news_items[7:15] %}
-          <div class="compact-item">
+          <div class="compact-item" data-article-url="{{ item.url }}">
             <span class="item-num">{{ loop.index + 7 }}</span>
             <span class="item-source">{{ item.source | default('') }}</span>
             <span class="item-title">
@@ -699,7 +699,7 @@
         <div class="list-hidden" id="moreNews">
           <div class="compact-list" style="margin-top: 12px;">
             {% for item in news_items[15:] %}
-            <div class="compact-item">
+            <div class="compact-item" data-article-url="{{ item.url }}">
               <span class="item-num">{{ loop.index + 15 }}</span>
               <span class="item-source">{{ item.source | default('') }}</span>
               <span class="item-title">
@@ -787,6 +787,113 @@
       btn.textContent = '접기';
     }
   }
+
+  // ── Today's Pick 실시간 갱신 (Supabase 클릭 데이터) ──
+  {% if supabase_url and supabase_anon_key %}
+  (function() {
+    var SUPABASE_URL = '{{ supabase_url }}';
+    var SUPABASE_KEY = '{{ supabase_anon_key }}';
+    var dateStr = '{{ date_str }}';
+
+    fetch(SUPABASE_URL + '/rest/v1/click_counts?article_date=eq.' + dateStr + '&order=click_count.desc&limit=1', {
+      headers: { 'apikey': SUPABASE_KEY }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data || !data.length || !data[0].article_url) return;
+
+      var topUrl = data[0].article_url;
+      var topClicks = data[0].click_count;
+      var featured = document.querySelector('.featured-card');
+      if (!featured) return;
+
+      // 이미 featured가 최다 클릭 기사면 클릭수 배지만 추가
+      if (featured.getAttribute('data-article-url') === topUrl) {
+        addClickBadge(featured, topClicks);
+        return;
+      }
+
+      // 최다 클릭 기사 카드 찾기 (grid-card 또는 compact-item)
+      var target = document.querySelector('[data-article-url="' + CSS.escape(topUrl) + '"]');
+      if (!target) return;
+
+      // featured 카드 내용을 target과 교체
+      swapToFeatured(featured, target, topClicks);
+    })
+    .catch(function() {});
+
+    function addClickBadge(card, clicks) {
+      var badge = card.querySelector('.card-badge');
+      if (badge && clicks > 0) {
+        badge.textContent = "Today's Pick · " + clicks + '회 조회';
+      }
+    }
+
+    function swapToFeatured(featured, target, clicks) {
+      // target에서 정보 추출
+      var targetUrl, targetTitle, targetSource, targetSummary, targetHref;
+
+      if (target.classList.contains('grid-card')) {
+        targetHref = target.getAttribute('href');
+        targetSource = target.querySelector('.card-source');
+        targetTitle = target.querySelector('.card-title');
+        targetSummary = target.querySelector('.card-summary');
+        targetSource = targetSource ? targetSource.textContent : '';
+        targetTitle = targetTitle ? targetTitle.textContent : '';
+        targetSummary = targetSummary ? targetSummary.textContent : '';
+      } else if (target.classList.contains('compact-item')) {
+        var link = target.querySelector('.item-title a');
+        targetHref = link ? link.getAttribute('href') : '';
+        targetSource = target.querySelector('.item-source');
+        targetTitle = target.querySelector('.item-title a');
+        targetSource = targetSource ? targetSource.textContent : '';
+        targetTitle = targetTitle ? targetTitle.textContent : '';
+        targetSummary = '';
+      } else {
+        return;
+      }
+
+      // 기존 featured 정보 저장
+      var oldHref = featured.getAttribute('href');
+      var oldUrl = featured.getAttribute('data-article-url');
+      var oldSource = featured.querySelector('.card-source');
+      var oldTitle = featured.querySelector('.card-title');
+      var oldSummary = featured.querySelector('.card-summary');
+      var oldSourceText = oldSource ? oldSource.textContent : '';
+      var oldTitleText = oldTitle ? oldTitle.textContent : '';
+      var oldSummaryText = oldSummary ? oldSummary.textContent : '';
+
+      // featured 업데이트
+      featured.setAttribute('href', targetHref);
+      featured.setAttribute('data-article-url', target.getAttribute('data-article-url'));
+      if (oldSource) oldSource.textContent = targetSource;
+      if (oldTitle) oldTitle.textContent = targetTitle;
+      if (oldSummary) oldSummary.textContent = targetSummary || '';
+      addClickBadge(featured, clicks);
+
+      // target 위치에 기존 featured 내용 넣기
+      if (target.classList.contains('grid-card')) {
+        target.setAttribute('href', oldHref);
+        target.setAttribute('data-article-url', oldUrl);
+        var ts = target.querySelector('.card-source');
+        var tt = target.querySelector('.card-title');
+        var tsum = target.querySelector('.card-summary');
+        if (ts) ts.textContent = oldSourceText;
+        if (tt) tt.textContent = oldTitleText;
+        if (tsum) tsum.textContent = oldSummaryText;
+      } else if (target.classList.contains('compact-item')) {
+        target.setAttribute('data-article-url', oldUrl);
+        var tSource = target.querySelector('.item-source');
+        var tLink = target.querySelector('.item-title a');
+        if (tSource) tSource.textContent = oldSourceText;
+        if (tLink) {
+          tLink.textContent = oldTitleText;
+          tLink.setAttribute('href', oldHref);
+        }
+      }
+    }
+  })();
+  {% endif %}
   </script>
 
 </body>

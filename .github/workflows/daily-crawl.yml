@@ -50,6 +50,8 @@ jobs:
           SLACK_USER_TOKEN: ${{ secrets.SLACK_USER_TOKEN }}
           BITLY_TOKEN: ${{ secrets.BITLY_TOKEN }}
           GITHUB_PAGES_URL: https://sejongkim-ctrl.github.io/hanmed-news-monitor
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           # soo-kin-monitor Pro JSON은 별도 레포에서 생성되므로 GitHub Actions에서는 없을 수 있음
           # KIN_OUTPUT_DIR은 기본값(빈 경로)으로 두어 자동 스킵
         run: |

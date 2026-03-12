@@ -38,6 +38,10 @@ SLACK_CHANNEL = os.getenv("SLACK_CHANNEL", "C09TZ32M2KZ")
 # GA4 Measurement ID (환경변수로 설정, 없으면 추적 비활성화)
 GA4_ID = os.getenv("GA4_MEASUREMENT_ID", "")
 
+# Supabase (클릭 추적용)
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
+
 # 요일 한글 매핑
 WEEKDAY_KO = ["월", "화", "수", "목", "금", "토", "일"]
 
@@ -193,6 +197,40 @@ def add_tracking_urls(items: list, date_str: str, content_type: str) -> list:
     return result
 
 
+# ── Supabase 클릭 데이터 조회 ──────────────────────────────────────────────────
+
+def fetch_click_counts(date_str: str) -> dict:
+    """
+    Supabase에서 특정 날짜의 클릭 데이터를 조회하여 {url: count} 딕셔너리 반환.
+    Supabase 미설정이거나 오류 시 빈 딕셔너리 반환 (graceful degradation).
+    """
+    if not SUPABASE_URL or not SUPABASE_ANON_KEY:
+        return {}
+    try:
+        resp = requests.get(
+            f"{SUPABASE_URL}/rest/v1/click_counts",
+            params={
+                "article_date": f"eq.{date_str}",
+                "select": "article_url,click_count",
+                "order": "click_count.desc",
+            },
+            headers={
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
+            },
+            timeout=10,
+        )
+        if resp.status_code == 200:
+            data = resp.json()
+            counts = {row["article_url"]: row["click_count"] for row in data}
+            print(f"[INFO] Supabase 클릭 데이터 {len(counts)}건 로드 (날짜: {date_str})")
+            return counts
+        print(f"[WARN] Supabase 조회 실패: {resp.status_code}")
+    except Exception as e:
+        print(f"[WARN] Supabase 연결 실패: {e}")
+    return {}
+
+
 # ── HTML 생성 ────────────────────────────────────────────────────────────────
 
 def render_html(date_str: str, news_items: list, kin_items: list) -> str:
@@ -212,6 +250,21 @@ def render_html(date_str: str, news_items: list, kin_items: list) -> str:
         archive_url=f"{GITHUB_PAGES_URL}/archive/",
         generated_at=datetime.datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d %H:%M"),
         ga_id=GA4_ID,
+        supabase_url=SUPABASE_URL,
+        supabase_anon_key=SUPABASE_ANON_KEY,
+    )
+
+
+def render_go_html() -> str:
+    """Jinja2로 go_page.html (클릭 추적 리다이렉트 페이지) 렌더링"""
+    env = Environment(
+        loader=FileSystemLoader(str(TEMPLATES_DIR)),
+        autoescape=True,
+    )
+    template = env.get_template("go_page.html")
+    return template.render(
+        supabase_url=SUPABASE_URL,
+        supabase_anon_key=SUPABASE_ANON_KEY,
     )
 
 
@@ -347,6 +400,18 @@ def main():
     if not news_items and not kin_items:
         print("[WARN] 뉴스/지식인 데이터 모두 없음 — placeholder 페이지 생성")
 
+    # 1.5. 클릭 데이터 기반 정렬 (Supabase)
+    click_counts = fetch_click_counts(date_str)
+    if click_counts and news_items:
+        news_items.sort(
+            key=lambda x: click_counts.get(x.get("url", ""), 0),
+            reverse=True,
+        )
+        top_url = news_items[0].get("url", "")
+        top_clicks = click_counts.get(top_url, 0)
+        if top_clicks > 0:
+            print(f"[INFO] Today's Pick 재선정: {top_clicks}회 클릭 — {news_items[0].get('title', '')[:40]}")
+
     # 2. URL 단축 (Bitly)
     if bitly_token:
         print("[INFO] Bitly URL 단축 시작...")
@@ -364,6 +429,10 @@ def main():
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     write_html(html, DOCS_DIR / "index.html")
     write_html(html, ARCHIVE_DIR / f"{date_str}.html")
+
+    # 5.5. go.html (클릭 추적 리다이렉트 페이지) 렌더링
+    go_html = render_go_html()
+    write_html(go_html, DOCS_DIR / "go.html")
 
     # 6. 아카이브 인덱스 갱신
     build_archive_index(DOCS_DIR)

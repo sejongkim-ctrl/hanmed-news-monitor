@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수壽 Daily — 이동 중...</title>
+  <style>
+    body {
+      font-family: 'Apple SD Gothic Neo', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #F9F7F4;
+      color: #6B6B6B;
+      font-size: 14px;
+    }
+    .loading { text-align: center; }
+    .loading .spinner {
+      width: 24px; height: 24px;
+      border: 3px solid #E8E0D6;
+      border-top-color: #891C21;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .fallback { margin-top: 16px; font-size: 12px; }
+    .fallback a { color: #891C21; }
+  </style>
+</head>
+<body>
+  <div class="loading">
+    <div class="spinner"></div>
+    <div>원문 페이지로 이동 중입니다...</div>
+    <div class="fallback" id="fallback" style="display:none;">
+      자동 이동이 안 되면 <a id="manualLink" href="#">여기를 클릭</a>하세요.
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var targetUrl = params.get('url');
+    var articleId = params.get('id') || '';
+    var dateStr = params.get('date') || '';
+    var contentType = params.get('type') || 'news';
+
+    if (!targetUrl) {
+      document.querySelector('.loading').innerHTML = '<div>잘못된 링크입니다.</div>';
+      return;
+    }
+
+    {% if supabase_url and supabase_anon_key %}
+    // Supabase 클릭 기록
+    try {
+      fetch('{{ supabase_url }}/rest/v1/rpc/increment_click', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': '{{ supabase_anon_key }}',
+          'Authorization': 'Bearer {{ supabase_anon_key }}'
+        },
+        body: JSON.stringify({ p_url: targetUrl, p_date: dateStr }),
+        keepalive: true
+      });
+    } catch(e) {}
+    {% endif %}
+
+    // GA4 이벤트 전송 (gtag가 로드된 경우)
+    try {
+      if (typeof gtag === 'function') {
+        gtag('event', 'outbound_click', {
+          'link_url': targetUrl,
+          'article_id': articleId,
+          'content_date': dateStr,
+          'content_type': contentType,
+          'transport_type': 'beacon'
+        });
+      }
+    } catch(e) {}
+
+    // localStorage 기록 (백업)
+    try {
+      var storageKey = 'soo_daily_clicks';
+      var clicks = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      clicks.push({
+        url: targetUrl, id: articleId, date: dateStr,
+        type: contentType, clicked_at: new Date().toISOString()
+      });
+      if (clicks.length > 500) clicks = clicks.slice(-500);
+      localStorage.setItem(storageKey, JSON.stringify(clicks));
+    } catch(e) {}
+
+    // fallback 링크 설정
+    var manualLink = document.getElementById('manualLink');
+    var fallback = document.getElementById('fallback');
+    if (manualLink) manualLink.href = targetUrl;
+    setTimeout(function() { if (fallback) fallback.style.display = 'block'; }, 1500);
+
+    // 리다이렉트 (Supabase fetch가 keepalive로 전송될 시간 확보)
+    setTimeout(function() {
+      window.location.replace(targetUrl);
+    }, 200);
+  })();
+  </script>
+
+  <noscript>
+    <p>JavaScript가 비활성화되어 있습니다.</p>
+  </noscript>
+</body>
+</html>
