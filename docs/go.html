@@ -51,6 +51,22 @@
       return;
     }
 
+    
+    // Supabase 클릭 기록
+    try {
+      fetch('https://srtmrelxactmgwuxtmjf.supabase.co/rest/v1/rpc/increment_click', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'sb_publishable_zqpVoKuFZ1c2X4yXRW9zXw_uDoa5mL0',
+          'Authorization': 'Bearer sb_publishable_zqpVoKuFZ1c2X4yXRW9zXw_uDoa5mL0'
+        },
+        body: JSON.stringify({ p_url: targetUrl, p_date: dateStr }),
+        keepalive: true
+      });
+    } catch(e) {}
+    
+
     // GA4 이벤트 전송 (gtag가 로드된 경우)
     try {
       if (typeof gtag === 'function') {
@@ -82,10 +98,10 @@
     if (manualLink) manualLink.href = targetUrl;
     setTimeout(function() { if (fallback) fallback.style.display = 'block'; }, 1500);
 
-    // GA4 이벤트 전송 후 약간의 딜레이 (beacon이 전송될 시간)
+    // 리다이렉트 (Supabase fetch가 keepalive로 전송될 시간 확보)
     setTimeout(function() {
       window.location.replace(targetUrl);
-    }, 150);
+    }, 200);
   })();
   </script>
 
