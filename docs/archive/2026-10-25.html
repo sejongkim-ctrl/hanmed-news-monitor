@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수壽 Daily — 2026.10.25 (일)</title>
+  <!-- GA4 -->
+  
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:    #891C21;
+      --red-light: #A82830;
+      --gold:   #C5A774;
+      --gold-light: #EDE4D4;
+      --bg:     #FFFFFF;
+      --bg-alt: #FAFAFA;
+      --text:   #191919;
+      --text-secondary: #555555;
+      --muted:  #999999;
+      --border: #EEEEEE;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      --card-shadow-hover: 0 6px 20px rgba(0,0,0,0.08);
+      --radius: 12px;
+      --transition: 0.2s ease;
+    }
+
+    body {
+      font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Slim Header (뉴닉 스타일) ── */
+    .site-header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.92);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--red);
+      letter-spacing: -0.03em;
+    }
+
+    .header-divider {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+    }
+
+    .header-subtitle {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .header-date {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* ── Hero Banner ── */
+    .hero {
+      background: var(--red);
+      padding: 40px 24px 36px;
+      text-align: center;
+    }
+
+    .hero .brand-tag {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .hero .hero-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 10px;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    /* ── Section Header (뉴닉 스타일 태그) ── */
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .section-tag .tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    .section-tag.kin .tag-dot {
+      background: var(--gold);
+    }
+
+    .section-count {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* ── Featured Card (1건, 뉴닉 히어로 카드) ── */
+    .featured-card {
+      display: block;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 28px 24px;
+      margin-bottom: 16px;
+      transition: box-shadow var(--transition), transform var(--transition);
+      cursor: pointer;
+      position: relative;
+      color: inherit;
+    }
+
+    .featured-card:hover { text-decoration: none; }
+
+    .featured-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .featured-card .card-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--red);
+      background: rgba(137,28,33,0.08);
+      border-radius: 4px;
+      padding: 3px 8px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .featured-card .card-source {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .featured-card .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .featured-card .card-title a { color: var(--text); }
+    .featured-card .card-title a:hover { color: var(--red); text-decoration: none; }
+
+    .featured-card .card-summary {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .featured-card .card-cta {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--red);
+      transition: opacity var(--transition);
+    }
+
+    .featured-card .card-cta:hover {
+      opacity: 0.7;
+      text-decoration: none;
+    }
+
+    /* ── Card Grid (2열, 뉴닉 핵심 레이아웃) ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .grid-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 20px 18px;
+      transition: box-shadow var(--transition), transform var(--transition);
+      color: inherit;
+    }
+
+    .grid-card:hover { text-decoration: none; }
+
+    .grid-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .grid-card .card-source {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .grid-card .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--text);
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .grid-card .card-title a { color: var(--text); }
+    .grid-card .card-title a:hover { color: var(--red); text-decoration: none; }
+
+    .grid-card .card-summary {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-top: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .grid-card .card-cta {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--red);
+    }
+
+    .grid-card .card-cta:hover { text-decoration: none; opacity: 0.7; }
+
+    /* ── Compact List (10건 이후) ── */
+    .compact-list {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .compact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition);
+    }
+
+    .compact-item:last-child {
+      border-bottom: none;
+    }
+
+    .compact-item:hover {
+      background: var(--bg-alt);
+    }
+
+    .compact-item .item-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .compact-item .item-source {
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+      min-width: 56px;
+    }
+
+    .compact-item .item-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .compact-item .item-title a { color: var(--text); }
+    .compact-item .item-title a:hover { color: var(--red); text-decoration: none; }
+
+    /* ── 더보기 토글 ── */
+    .more-toggle {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--transition);
+      font-family: inherit;
+    }
+
+    .more-toggle:hover {
+      border-color: var(--red);
+      color: var(--red);
+      background: rgba(137,28,33,0.03);
+    }
+
+    .list-hidden {
+      display: none;
+    }
+
+    .list-hidden.show {
+      display: block;
+    }
+
+    /* ── Kin Section (뉴닉 스타일 카드) ── */
+    .kin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .kin-card {
+      display: block;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: box-shadow var(--transition), transform var(--transition);
+      color: inherit;
+    }
+
+    .kin-card:hover {
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    .kin-card .kin-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .kin-card .kin-category-tag {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gold);
+      background: var(--gold-light);
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+
+    .kin-card .kin-keyword-tag {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--primary);
+      background: #f5eaea;
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+
+    .kin-card .kin-stats {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .kin-card .kin-title {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.45;
+      margin-bottom: 14px;
+      color: var(--text);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .kin-card .kin-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold);
+      transition: opacity var(--transition);
+    }
+
+    .kin-card .kin-cta:hover {
+      opacity: 0.7;
+      text-decoration: none;
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* ── Subscribe Section ── */
+    .subscribe-section {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .subscribe-section h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .subscribe-section p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    #stibee-form-container {
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* ── Footer (뉴닉 스타일 미니멀) ── */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 20px 48px;
+      text-align: center;
+    }
+
+    .site-footer .footer-brand {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--red);
+      margin-bottom: 12px;
+    }
+
+    .site-footer .footer-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .site-footer .footer-link {
+      font-size: 12px;
+      color: var(--muted);
+      transition: color var(--transition);
+    }
+
+    .site-footer .footer-link:hover {
+      color: var(--red);
+      text-decoration: none;
+    }
+
+    .site-footer .footer-meta {
+      font-size: 11px;
+      color: #CCCCCC;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .site-header { padding: 12px 16px; }
+      .header-logo { font-size: 16px; }
+      .hero { padding: 32px 16px 28px; }
+      .hero h1 { font-size: 22px; }
+      .container { padding: 24px 16px 48px; }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .kin-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .featured-card {
+        padding: 22px 20px 20px;
+      }
+
+      .featured-card .card-title {
+        font-size: 18px;
+      }
+
+      .grid-card {
+        padding: 18px 16px 14px;
+      }
+
+      .compact-item {
+        padding: 11px 14px;
+        gap: 8px;
+      }
+
+      .compact-item .item-source {
+        min-width: 44px;
+        font-size: 9px;
+      }
+
+      .compact-item .item-title {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Sticky Header (뉴닉 스타일) ── -->
+  <header class="site-header">
+    <div class="header-left">
+      <span class="header-logo">수壽 Daily</span>
+      <span class="header-divider"></span>
+      <span class="header-subtitle">한의계 뉴스 브리핑</span>
+    </div>
+    <span class="header-date">2026.10.25 (일)</span>
+  </header>
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="brand-tag">한의사가 만든 한의 브랜드, 수壽</div>
+    <h1>오늘의 한의계 브리핑</h1>
+    <div class="hero-desc">
+      
+        뉴스 20건 + 환자 질문 15건
+      
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ── 섹션 1: 한의계 뉴스 ── -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-tag">
+          <span class="tag-dot"></span>
+          오늘의 한의계 뉴스
+        </span>
+        
+        <span class="section-count">20건</span>
+        
+      </div>
+
+      
+
+        
+        
+        <a class="featured-card" href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63266&amp;id=1&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63266">
+          <span class="card-badge">Today's Pick</span>
+          
+          <div class="card-source">민족의학신문</div>
+          
+          <div class="card-title">＜고의서산책/1223＞ - 『(古本)鷹鶻方』①</div>
+          
+          <span class="card-cta">원문 보기 →</span>
+        </a>
+
+        
+        
+        <div class="card-grid">
+          
+          <a class="grid-card" href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63270&amp;id=2&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63270">
+            
+            <div class="card-source">민족의학신문</div>
+            
+            <div class="card-title">[기고] 한의원 개원 준비, 서두른 원장님들이 공통으로 놓치는 한 가지</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+          <a class="grid-card" href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63271&amp;id=3&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63271">
+            
+            <div class="card-source">민족의학신문</div>
+            
+            <div class="card-title">AI는 지어내기보다 빠뜨립니다</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+          <a class="grid-card" href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63277&amp;id=4&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63277">
+            
+            <div class="card-source">민족의학신문</div>
+            
+            <div class="card-title">한의약진흥원-아제르바이잔 국립의사보수교육원, 보건의료 협력 MOU</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+          <a class="grid-card" href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63261&amp;id=5&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63261">
+            
+            <div class="card-source">민족의학신문</div>
+            
+            <div class="card-title">[새책] 우리 몸의 ‘리듬’을 찾아야 건강을 찾는다</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+          <a class="grid-card" href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63276&amp;id=6&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63276">
+            
+            <div class="card-source">민족의학신문</div>
+            
+            <div class="card-title">파독 간호사, 반세기만에 한국 찾아 한의치료 및 예술공연 관람</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+          <a class="grid-card" href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63275&amp;id=7&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63275">
+            
+            <div class="card-source">민족의학신문</div>
+            
+            <div class="card-title">심평원, AI 윤리 준수기관 확인마크 획득</div>
+            
+            <span class="card-cta">원문 보기 →</span>
+          </a>
+          
+        </div>
+        
+
+        
+        
+        <div class="compact-list">
+          
+          <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63274">
+            <span class="item-num">8</span>
+            <span class="item-source">민족의학신문</span>
+            <span class="item-title">
+              <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63274&amp;id=8&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">[2026 국정감사] “‘자금정’ 등 성과 거둔 처방 상용화 단계서 멈춰있는 실정 개선해야”</a>
+            </span>
+          </div>
+          
+          <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63273">
+            <span class="item-num">9</span>
+            <span class="item-source">민족의학신문</span>
+            <span class="item-title">
+              <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63273&amp;id=9&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">대구한의대, 태국·우즈베키스탄 4개 대학서 한의학 교육</a>
+            </span>
+          </div>
+          
+          <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63272">
+            <span class="item-num">10</span>
+            <span class="item-source">민족의학신문</span>
+            <span class="item-title">
+              <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63272&amp;id=10&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">“政, 한의약 소홀히 여기나…복지부 전체 예산 오를때 한의약 오히려 감소”</a>
+            </span>
+          </div>
+          
+          <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63269">
+            <span class="item-num">11</span>
+            <span class="item-source">민족의학신문</span>
+            <span class="item-title">
+              <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63269&amp;id=11&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">[2026 국정감사] “노벨 생리의학상 수상자 50% 의사과학자인데 예산은 삭감”</a>
+            </span>
+          </div>
+          
+          <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63268">
+            <span class="item-num">12</span>
+            <span class="item-source">민족의학신문</span>
+            <span class="item-title">
+              <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63268&amp;id=12&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">경희대 서병관 교수, ‘한의 의료기관 감염관리’ 질병관리청 표창</a>
+            </span>
+          </div>
+          
+          <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63267">
+            <span class="item-num">13</span>
+            <span class="item-source">민족의학신문</span>
+            <span class="item-title">
+              <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63267&amp;id=13&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">파주시, 한의학 통한 건강관리 및 치유 ‘한방이어락’ 운영</a>
+            </span>
+          </div>
+          
+          <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63265">
+            <span class="item-num">14</span>
+            <span class="item-source">민족의학신문</span>
+            <span class="item-title">
+              <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63265&amp;id=14&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">원광대한방병원, 농촌 왕진버스 찾아가는 무료 진료</a>
+            </span>
+          </div>
+          
+          <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63264">
+            <span class="item-num">15</span>
+            <span class="item-source">민족의학신문</span>
+            <span class="item-title">
+              <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63264&amp;id=15&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">이형훈 제2차관, AI 본격 추진 대비 네이버 데이터센터 방문</a>
+            </span>
+          </div>
+          
+        </div>
+
+        
+        
+        <div class="list-hidden" id="moreNews">
+          <div class="compact-list" style="margin-top: 12px;">
+            
+            <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63263">
+              <span class="item-num">16</span>
+              <span class="item-source">민족의학신문</span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63263&amp;id=16&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">고령 뇌졸중 환자, 한의입원치료 시 부적절한 다약제 복용률 감소 효과</a>
+              </span>
+            </div>
+            
+            <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63262">
+              <span class="item-num">17</span>
+              <span class="item-source">민족의학신문</span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63262&amp;id=17&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">“만성 목 통증 환자, 추나요법 병행이 물리치료 단독보다 비용 절감”</a>
+              </span>
+            </div>
+            
+            <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63260">
+              <span class="item-num">18</span>
+              <span class="item-source">민족의학신문</span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63260&amp;id=18&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">국가 통합 바이오 빅데이터 구축사업, ‘건강검진 대상자→국민’ 기준 확대</a>
+              </span>
+            </div>
+            
+            <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63259">
+              <span class="item-num">19</span>
+              <span class="item-source">민족의학신문</span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63259&amp;id=19&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">식약처, 첨단바이오의약품 기업 위한 규제정보 공유</a>
+              </span>
+            </div>
+            
+            <div class="compact-item" data-article-url="http://www.mjmedi.com/news/articleView.html?idxno=63258">
+              <span class="item-num">20</span>
+              <span class="item-source">민족의학신문</span>
+              <span class="item-title">
+                <a href="go.html?url=http%3A%2F%2Fwww.mjmedi.com%2Fnews%2FarticleView.html%3Fidxno%3D63258&amp;id=20&amp;date=2026-10-25&amp;type=news" target="_blank" rel="noopener">歷代名醫醫案 (518) - 裵元植의 醫案(9)</a>
+              </span>
+            </div>
+            
+          </div>
+        </div>
+        <button class="more-toggle" id="moreToggle" onclick="toggleMore()">
+          나머지 5건 더보기
+        </button>
+        
+
+        
+
+      
+    </section>
+
+    <!-- ── 섹션 2: Pro 전용 환자 질문 ── -->
+    
+    <section class="section">
+      <div class="section-header">
+        <span class="section-tag kin">
+          <span class="tag-dot"></span>
+          Pro 전용 — 오늘의 환자 질문
+        </span>
+        <span class="section-count">15건</span>
+      </div>
+
+      <div class="kin-grid">
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70301%26docId%3D491344975%26kinsrch_src%3Dpc_nx_urb%26qb%3D7J207KCV7J6s6rO17KeE64uo&amp;id=1&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">공진단</span>
+            
+            
+            <span class="kin-keyword-tag">이정재공진단</span>
+            
+          </div>
+          <div class="kin-title">이정재 공진단효과 좋을까요?새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70305%26docId%3D494770710%26kinsrch_src%3Dpc_nx_urb%26qb%3D7IKs7Zal6rO17KeE64uoIO2aqOqzvA%253D%253D&amp;id=2&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">공진단</span>
+            
+            
+            <span class="kin-keyword-tag">사향공진단 효과</span>
+            
+          </div>
+          <div class="kin-title">사향공진단효능어떤 분께 좋나요(대청사향공진단효능)새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70304%26docId%3D494905586%26kinsrch_src%3Dpc_nx_urb%26qb%3D7IKs7Zal6rO17KeE64uoIO2aqOqzvA%253D%253D&amp;id=3&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">공진단</span>
+            
+            
+            <span class="kin-keyword-tag">사향공진단 효과</span>
+            
+          </div>
+          <div class="kin-title">수험생 전용공진단 효과가 어떤가요~?(신정동 수험생공진단,사향공진단,공진단효능)새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70304%26docId%3D495488056%26kinsrch_src%3Dpc_nx_urb%26qb%3D6rO17KeE64uoIO2aqOuKpQ%253D%253D&amp;id=4&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">공진단</span>
+            
+            
+            <span class="kin-keyword-tag">공진단 효능</span>
+            
+          </div>
+          <div class="kin-title">사향공진단수험생에게 도움 될까요?공진단 효능이 궁금합니다(오목교 수험생공진단, 사향공진....새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70305%26docId%3D495622150%26kinsrch_src%3Dpc_nx_urb%26qb%3D6rO17KeE64uoIO2aqOuKpQ%253D%253D&amp;id=5&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">공진단</span>
+            
+            
+            <span class="kin-keyword-tag">공진단 효능</span>
+            
+          </div>
+          <div class="kin-title">공진단효능부모님 기력 관리에 괜찮을까요(신사공진단효능)새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70305%26docId%3D495663381%26kinsrch_src%3Dpc_nx_urb%26qb%3D6rO17KeE64uoIO2aqOuKpQ%253D%253D&amp;id=6&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">공진단</span>
+            
+            
+            <span class="kin-keyword-tag">공진단 효능</span>
+            
+          </div>
+          <div class="kin-title">공진단금박효능과 복용법이 궁금해요(신사공진단금박)새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70305%26docId%3D495265741%26kinsrch_src%3Dpc_nx_urb%26qb%3D6rO17KeE64uoIOqwgOqyqQ%253D%253D&amp;id=7&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">공진단</span>
+            
+            
+            <span class="kin-keyword-tag">공진단 가격</span>
+            
+          </div>
+          <div class="kin-title">공진단가격차이는 어디서 생기나요(양재공진단가격)새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70301%26docId%3D495622170%26kinsrch_src%3Dpc_nx_urb%26qb%3D6rO17KeE64uoIOqwgOqyqQ%253D%253D&amp;id=8&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">공진단</span>
+            
+            
+            <span class="kin-keyword-tag">공진단 가격</span>
+            
+          </div>
+          <div class="kin-title">공진단가격한의원마다 차이가 나는 이유는 뭔가요(압구정공진단가격)새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70301%26docId%3D495647742%26kinsrch_src%3Dpc_nx_urb%26qb%3D6rO17KeE64uoIOqwgOqyqQ%253D%253D&amp;id=9&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">공진단</span>
+            
+            
+            <span class="kin-keyword-tag">공진단 가격</span>
+            
+          </div>
+          <div class="kin-title">사향공진단가격한 달분 기준이 궁금해요(압구정 사향공진단가격)새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70304%26docId%3D495191325%26kinsrch_src%3Dpc_nx_urb%26qb%3D7LSd66qF6rO17KeE64uo&amp;id=10&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">공진단</span>
+            
+            
+            <span class="kin-keyword-tag">총명공진단</span>
+            
+          </div>
+          <div class="kin-title">총명탕이랑공진단경옥고 뭐가 다른 건가요(인천총명탕,공진단, 경옥고 수험생 보약 종류 비교)새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70301%26docId%3D495509751%26kinsrch_src%3Dpc_nx_urb%26qb%3D64W57Jqp6rK97Jil6rOg&amp;id=11&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">경옥고</span>
+            
+            
+            <span class="kin-keyword-tag">녹용경옥고</span>
+            
+          </div>
+          <div class="kin-title">경옥고, 공진단 뭐가 다른가요?(부천경옥고)새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70301%26docId%3D494939738%26kinsrch_src%3Dpc_nx_urb%26qb%3D6rK97Jil6rOgIOuoueuKlOuylQ%253D%253D&amp;id=12&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">경옥고</span>
+            
+            
+            <span class="kin-keyword-tag">경옥고 먹는법</span>
+            
+          </div>
+          <div class="kin-title">경옥고먹고나서 한약먹어도되나요??새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70309%26docId%3D495073390%26kinsrch_src%3Dpc_nx_urb%26qb%3D64W57Jqp7ZWc7JW9IO2aqOqzvA%253D%253D&amp;id=13&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">녹용</span>
+            
+            
+            <span class="kin-keyword-tag">녹용한약 효과</span>
+            
+          </div>
+          <div class="kin-title">녹용탕재원한약새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70305%26docId%3D495089267%26kinsrch_src%3Dpc_nx_urb%26qb%3D64W57Jqp7ZWc7JW9IO2aqOqzvA%253D%253D&amp;id=14&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">녹용</span>
+            
+            
+            <span class="kin-keyword-tag">녹용한약 효과</span>
+            
+          </div>
+          <div class="kin-title">녹용효과요즘 유난히 회복이 느려요(서초녹용효과)새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+        <a class="kin-card" href="go.html?url=https%3A%2F%2Fkin.naver.com%2Fqna%2Fdetail.naver%3FdirId%3D70305%26docId%3D495236719%26kinsrch_src%3Dpc_nx_urb%26qb%3D64W57JqpIOqwgOqyqQ%253D%253D&amp;id=15&amp;date=2026-10-25&amp;type=kin" target="_blank" rel="noopener">
+          <div class="kin-top">
+            
+            <span class="kin-category-tag">녹용</span>
+            
+            
+            <span class="kin-keyword-tag">녹용 가격</span>
+            
+          </div>
+          <div class="kin-title">공진단가격은 왜 한의원마다 차이가 많이 나나요?새 창 열림</div>
+          <span class="kin-cta">답변하러 가기 →</span>
+        </a>
+        
+      </div>
+    </section>
+    
+
+    <!-- ── 구독 ── -->
+    <div class="subscribe-section">
+      <h3>수壽 Daily 뉴스레터 구독</h3>
+      <p>매일 아침 한의계 핵심 뉴스를 받아보세요.</p>
+      <div id="stibee-form-container">
+        구독 폼 준비 중입니다.
+      </div>
+    </div>
+
+  </div><!-- /.container -->
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="footer-brand">수壽 Daily</div>
+    <div class="footer-links">
+      <a class="footer-link" href="https://sejongkim-ctrl.github.io/hanmed-news-monitor/archive/">지난 콘텐츠</a>
+      <span style="color: #E0E0E0;">|</span>
+      <span class="footer-link" style="cursor: default;">한의사가 만든 한의 브랜드, 수壽</span>
+    </div>
+    <div class="footer-meta">2026-10-25 09:26</div>
+  </footer>
+
+  <!-- ── Scripts ── -->
+  <script>
+  function toggleMore() {
+    var hidden = document.getElementById('moreNews');
+    var btn = document.getElementById('moreToggle');
+    if (!hidden || !btn) return;
+    if (hidden.classList.contains('show')) {
+      hidden.classList.remove('show');
+      btn.textContent = '나머지 ' + hidden.querySelectorAll('.compact-item').length + '건 더보기';
+    } else {
+      hidden.classList.add('show');
+      btn.textContent = '접기';
+    }
+  }
+
+  // ── Today's Pick 실시간 갱신 (Supabase 클릭 데이터) ──
+  
+  (function() {
+    var SUPABASE_URL = 'https://srtmrelxactmgwuxtmjf.supabase.co';
+    var SUPABASE_KEY = 'sb_publishable_zqpVoKuFZ1c2X4yXRW9zXw_uDoa5mL0';
+    var dateStr = '2026-10-25';
+
+    fetch(SUPABASE_URL + '/rest/v1/click_counts?article_date=eq.' + dateStr + '&order=click_count.desc&limit=1', {
+      headers: { 'apikey': SUPABASE_KEY }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data || !data.length || !data[0].article_url) return;
+
+      var topUrl = data[0].article_url;
+      var topClicks = data[0].click_count;
+      var featured = document.querySelector('.featured-card');
+      if (!featured) return;
+
+      // 이미 featured가 최다 클릭 기사면 클릭수 배지만 추가
+      if (featured.getAttribute('data-article-url') === topUrl) {
+        addClickBadge(featured, topClicks);
+        return;
+      }
+
+      // 최다 클릭 기사 카드 찾기 (grid-card 또는 compact-item)
+      var target = document.querySelector('[data-article-url="' + CSS.escape(topUrl) + '"]');
+      if (!target) return;
+
+      // featured 카드 내용을 target과 교체
+      swapToFeatured(featured, target, topClicks);
+    })
+    .catch(function() {});
+
+    function addClickBadge(card, clicks) {
+      var badge = card.querySelector('.card-badge');
+      if (badge && clicks > 0) {
+        badge.textContent = "Today's Pick · " + clicks + '회 조회';
+      }
+    }
+
+    function swapToFeatured(featured, target, clicks) {
+      // target에서 정보 추출
+      var targetUrl, targetTitle, targetSource, targetSummary, targetHref;
+
+      if (target.classList.contains('grid-card')) {
+        targetHref = target.getAttribute('href');
+        targetSource = target.querySelector('.card-source');
+        targetTitle = target.querySelector('.card-title');
+        targetSummary = target.querySelector('.card-summary');
+        targetSource = targetSource ? targetSource.textContent : '';
+        targetTitle = targetTitle ? targetTitle.textContent : '';
+        targetSummary = targetSummary ? targetSummary.textContent : '';
+      } else if (target.classList.contains('compact-item')) {
+        var link = target.querySelector('.item-title a');
+        targetHref = link ? link.getAttribute('href') : '';
+        targetSource = target.querySelector('.item-source');
+        targetTitle = target.querySelector('.item-title a');
+        targetSource = targetSource ? targetSource.textContent : '';
+        targetTitle = targetTitle ? targetTitle.textContent : '';
+        targetSummary = '';
+      } else {
+        return;
+      }
+
+      // 기존 featured 정보 저장
+      var oldHref = featured.getAttribute('href');
+      var oldUrl = featured.getAttribute('data-article-url');
+      var oldSource = featured.querySelector('.card-source');
+      var oldTitle = featured.querySelector('.card-title');
+      var oldSummary = featured.querySelector('.card-summary');
+      var oldSourceText = oldSource ? oldSource.textContent : '';
+      var oldTitleText = oldTitle ? oldTitle.textContent : '';
+      var oldSummaryText = oldSummary ? oldSummary.textContent : '';
+
+      // featured 업데이트
+      featured.setAttribute('href', targetHref);
+      featured.setAttribute('data-article-url', target.getAttribute('data-article-url'));
+      if (oldSource) oldSource.textContent = targetSource;
+      if (oldTitle) oldTitle.textContent = targetTitle;
+      if (oldSummary) oldSummary.textContent = targetSummary || '';
+      addClickBadge(featured, clicks);
+
+      // target 위치에 기존 featured 내용 넣기
+      if (target.classList.contains('grid-card')) {
+        target.setAttribute('href', oldHref);
+        target.setAttribute('data-article-url', oldUrl);
+        var ts = target.querySelector('.card-source');
+        var tt = target.querySelector('.card-title');
+        var tsum = target.querySelector('.card-summary');
+        if (ts) ts.textContent = oldSourceText;
+        if (tt) tt.textContent = oldTitleText;
+        if (tsum) tsum.textContent = oldSummaryText;
+      } else if (target.classList.contains('compact-item')) {
+        target.setAttribute('data-article-url', oldUrl);
+        var tSource = target.querySelector('.item-source');
+        var tLink = target.querySelector('.item-title a');
+        if (tSource) tSource.textContent = oldSourceText;
+        if (tLink) {
+          tLink.textContent = oldTitleText;
+          tLink.setAttribute('href', oldHref);
+        }
+      }
+    }
+  })();
+  
+  </script>
+
+</body>
+</html>
